@@ -1,0 +1,52 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+    <script src="https://cdn.bootcss.com/rot.js/0.6.0/rot.min.js"></script>
+    <script charset="UTF-8" src="./fontpixels.js"></script>
+    <label>Text to input:
+  		<input type="text" id="text" value="你好，世界。Hello World!" oninput="drawtext()">
+	</label>
+    <label>Size of text:
+  		<input type="range" id="size" min="18" max="20" value="18" oninput="drawtext()">
+	</label>
+    <label>Font family:
+  		<select id="fontFamily" oninput="drawtext()">
+    		<option value="Courier"> Courier </option>
+  		</select>
+	</label>
+    <br> This project is partially made with <a href="https://github.com/ondras/rot.js/">ROT.js</a>.
+    <div id="container"></div>
+    <div id="hexStr"></div>
+    <script>
+        var text = document.getElementById("text");
+        var sizeoftext = document.getElementById("size");
+        var fontfamily = document.getElementById("fontFamily");
+        var hexStr = document.getElementById("hexStr");
+        var display = new ROT.Display({
+            width: text.value.length * 16,
+            height: 16,
+            forceSquareRatio: true,
+            fontSize: 10
+        });
+        document.getElementById("container").appendChild(display.getContainer());
+
+        function drawtext() {
+
+            var values = {
+                text: text.value || "你好，世界。Hello World!",
+                sizeoftext: sizeoftext.value || 30,
+                fontfamily: fontfamily.value || "Courier New",
+                linesornot: false,
+				linewidth: 0.3
+            };
+            display.clear();
+            fontpixels.generatepixels(values.text, values.sizeoftext, values.fontfamily, values.linewidth, values.linesornot).forEach(function(value) {
+                display.draw(value.x, value.y, "X");
+            });
+        } 
+    </script>
+</body>
+
+</html>
